@@ -1,10 +1,18 @@
+import PropTypes from 'prop-types';
+
+import { Input, Label } from './FindField.styled';
+
 const FindField = ({ value, changeFilter }) => {
   return (
-    <label>
+    <Label>
       Find contacts by name
-      <input type="text" value={value} onChange={changeFilter} />
-    </label>
+      <Input type="text" value={value} onChange={changeFilter} />
+    </Label>
   );
 };
 
 export default FindField;
+
+FindField.propTypes = {
+  value: PropTypes.string,
+};

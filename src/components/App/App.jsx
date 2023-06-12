@@ -8,6 +8,7 @@ import FindField from 'components/FindField/';
 
 class App extends Component {
   state = {
+    currentPage: 'addContact',
     contacts: [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -71,20 +72,30 @@ class App extends Component {
       contacts: prevState.contacts.filter(({ id }) => id !== contactId),
     }));
   };
+  handlePageChange = () => {
+    this.setState(prevState => ({
+      currentPage:
+        prevState.currentPage === 'addContact' ? 'contacts' : 'addContact',
+    }));
+  };
 
   render() {
     return (
-      <Phonebook title="Phonebook">
-        <AddContactForm setNewContact={this.setNewContact} />
-        <Contacts
-          contacts={this.getVisibleContacts()}
-          onDeleteContact={this.deleteContact}
-        >
-          <FindField
-            value={this.state.filter}
-            changeFilter={this.changeFilter}
-          />
-        </Contacts>
+      <Phonebook title="Phonebook" changePage={this.handlePageChange}>
+        {this.state.currentPage === 'addContact' && (
+          <AddContactForm setNewContact={this.setNewContact} />
+        )}
+        {this.state.currentPage === 'contacts' && (
+          <Contacts
+            contacts={this.getVisibleContacts()}
+            onDeleteContact={this.deleteContact}
+          >
+            <FindField
+              value={this.state.filter}
+              changeFilter={this.changeFilter}
+            />
+          </Contacts>
+        )}
       </Phonebook>
     );
   }

@@ -1,5 +1,13 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
 import { nanoid } from 'nanoid';
+
+import {
+  FormWrap,
+  SubTitle,
+  Label,
+  Input,
+  FormBtn,
+} from './AddContactForm.styled';
 
 const AddContactForm = ({ setNewContact }) => {
   const inputNameId = nanoid(6);
@@ -16,9 +24,10 @@ const AddContactForm = ({ setNewContact }) => {
   };
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      <Form>
-        <label htmlFor={inputNameId}>Name</label>
-        <Field
+      <FormWrap>
+        <SubTitle>Add</SubTitle>
+        <Label htmlFor={inputNameId}>Name</Label>
+        <Input
           id={inputNameId}
           type="text"
           name="name"
@@ -26,8 +35,8 @@ const AddContactForm = ({ setNewContact }) => {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
         />
-        <label htmlFor={inputNumberId}>Number</label>
-        <Field
+        <Label htmlFor={inputNumberId}>Number</Label>
+        <Input
           id={inputNumberId}
           type="tel"
           name="number"
@@ -36,8 +45,8 @@ const AddContactForm = ({ setNewContact }) => {
           required
         />
 
-        <button type="submit">Add contact</button>
-      </Form>
+        <FormBtn type="submit">Add contact</FormBtn>
+      </FormWrap>
     </Formik>
   );
 };

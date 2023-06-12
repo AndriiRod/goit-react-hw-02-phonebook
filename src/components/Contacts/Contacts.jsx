@@ -1,12 +1,15 @@
 import ContactItem from 'components/ContactItem/';
+import PropTypes from 'prop-types';
+
+import { SubTitle, List } from './Contacts.styled';
 
 const Contacts = ({ contacts, onDeleteContact, children }) => {
   return (
     <div>
-      <h2>Contacts</h2>
+      <SubTitle>Contacts</SubTitle>
       {children}
       {contacts.length !== 0 && (
-        <ul>
+        <List>
           {contacts.map(({ id, name, number }) => (
             <ContactItem
               key={id}
@@ -16,10 +19,18 @@ const Contacts = ({ contacts, onDeleteContact, children }) => {
               onDeleteContact={onDeleteContact}
             />
           ))}
-        </ul>
+        </List>
       )}
     </div>
   );
 };
 
 export default Contacts;
+
+Contacts.propTypes = {
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+    })
+  ),
+};
