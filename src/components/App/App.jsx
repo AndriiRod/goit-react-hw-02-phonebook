@@ -15,44 +15,29 @@ class App extends Component {
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
-    name: '',
-    number: '',
     filter: '',
   };
 
-  setNewContact = ({ name, number }) => {
-    this.setState(
-      {
-        name: name,
-        number: number,
-      },
-      () => this.checkingForMatches()
-    );
-  };
-
-  addNewContact = () => {
-    const { name, number } = this.state;
-
+  addNewContact = data => {
     const newItem = {
       id: nanoid(5),
-      name: name,
-      number: number,
+      ...data,
     };
     this.setState(({ contacts }) => ({
       contacts: [newItem, ...contacts],
     }));
   };
 
-  checkingForMatches = () => {
-    const { name, contacts } = this.state;
-    const matches = contacts.find(item => item.name === name);
+  checkingForMatches = data => {
+    const { name } = data;
+    const matches = this.state.contacts.find(item => item.name === name);
     if (matches) {
       alert(
         `${name.charAt(0).toUpperCase() + name.slice(1)} is already in contacts`
       );
       return;
     }
-    this.addNewContact();
+    this.addNewContact(data);
   };
 
   changeFilter = e => {
@@ -83,7 +68,7 @@ class App extends Component {
     return (
       <Phonebook title="Phonebook" changePage={this.handlePageChange}>
         {this.state.currentPage === 'addContact' && (
-          <AddContactForm setNewContact={this.setNewContact} />
+          <AddContactForm checkingForMatches={this.checkingForMatches} />
         )}
         {this.state.currentPage === 'contacts' && (
           <Contacts

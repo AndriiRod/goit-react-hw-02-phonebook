@@ -1,5 +1,7 @@
-import { Formik } from 'formik';
+import { Formik, ErrorMessage, useFormikContext } from 'formik';
 import { nanoid } from 'nanoid';
+
+import schema from 'components/schema';
 
 import {
   FormWrap,
@@ -7,9 +9,20 @@ import {
   Label,
   Input,
   FormBtn,
+  ErrorText,
+  InputContainer,
 } from './AddContactForm.styled';
 
-const AddContactForm = ({ setNewContact }) => {
+const ErrorBox = ({ name }) => {
+  return (
+    <ErrorMessage
+      name={name}
+      render={message => <ErrorText>{message}</ErrorText>}
+    />
+  );
+};
+
+const AddContactForm = ({ checkingForMatches }) => {
   const inputNameId = nanoid(6);
   const inputNumberId = nanoid(6);
 
@@ -18,33 +31,27 @@ const AddContactForm = ({ setNewContact }) => {
     number: '',
   };
   const handleSubmit = (values, { resetForm }) => {
-    console.log(values);
-    setNewContact(values);
+    checkingForMatches(values);
     resetForm();
   };
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={schema}
+    >
       <FormWrap>
         <SubTitle>Add</SubTitle>
         <Label htmlFor={inputNameId}>Name</Label>
-        <Input
-          id={inputNameId}
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
+        <InputContainer>
+          <Input id={inputNameId} type="text" name="name" />
+          <ErrorBox name="name" component="div" />
+        </InputContainer>
         <Label htmlFor={inputNumberId}>Number</Label>
-        <Input
-          id={inputNumberId}
-          type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-        />
-
+        <InputContainer>
+          <Input id={inputNumberId} type="tel" name="number" />
+          <ErrorBox name="number" component="div" />
+        </InputContainer>
         <FormBtn type="submit">Add contact</FormBtn>
       </FormWrap>
     </Formik>

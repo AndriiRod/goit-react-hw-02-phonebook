@@ -33,8 +33,6 @@ export const Input = styled(Field)`
   border: 1px solid #454545;
   border-radius: 2px;
 
-  margin-bottom: 20px;
-
   font-weight: 400;
   font-size: 16px;
   line-height: 1.18;
@@ -50,4 +48,27 @@ export const FormBtn = styled.button`
   box-shadow: 0px 14px 50px rgba(0, 25, 36, 0.2);
   border: none;
   border-radius: 2px;
+`;
+export const InputContainer = styled.div`
+  position: relative;
+  margin-bottom: 20px;
+`;
+
+export const ErrorText = styled.div`
+  color: #6e5404;
+  position: absolute;
+  top: -50%;
+
+  right: -100%;
+
+  max-width: 100%;
+  max-height: 60px;
+  overflow-y: auto;
+
+  background-color: #f2c94c;
+  border: 1px solid #f2c94c;
+  box-shadow: 0px 2px 26px rgba(215, 0, 0, 0.1);
+  border-radius: 6px;
+
+  padding: 12px;
 `;
